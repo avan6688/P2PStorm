@@ -192,7 +192,7 @@ export class HttpRequestExecutor {
 
   private handleError(error: unknown) {
     if (error instanceof Error) {
-      if (error.name !== "abort") return;
+      if (error.name === "AbortError") return;
 
       const httpLoaderError =
         error instanceof RequestError

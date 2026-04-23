@@ -137,13 +137,13 @@ export class PeerProtocol {
 function* getBufferChunks(
   data: ArrayBuffer,
   maxChunkSize: number,
-): Generator<ArrayBuffer, void> {
+): Generator<Uint8Array, void> {
   let bytesLeft = data.byteLength;
   while (bytesLeft > 0) {
     const bytesToSend = bytesLeft >= maxChunkSize ? maxChunkSize : bytesLeft;
     const from = data.byteLength - bytesLeft;
-    const buffer = data.slice(from, from + bytesToSend);
+    const view = new Uint8Array(data, from, bytesToSend);
     bytesLeft -= bytesToSend;
-    yield buffer;
+    yield view;
   }
 }

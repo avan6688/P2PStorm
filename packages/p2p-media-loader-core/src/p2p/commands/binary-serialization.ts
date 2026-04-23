@@ -1,5 +1,8 @@
 import { joinChunks } from "../../utils/utils.js";
 
+const textEncoder = new TextEncoder();
+const textDecoder = new TextDecoder("utf8");
+
 // restricted up to 16 item types (4 bits to type definition)
 export const enum SerializedItem {
   Min = -1,
@@ -136,7 +139,7 @@ export function serializeString(string: string) {
     (SerializedItem.String << 4) | ((length >> 8) & 0x0f),
     length & 0xff,
   ]);
-  bytes.push(new TextEncoder().encode(string));
+  bytes.push(textEncoder.encode(string));
   return bytes.getBuffer();
 }
 
@@ -150,7 +153,7 @@ export function deserializeString(bytes: Uint8Array) {
   }
   const length = ((codeByte & 0x0f) << 8) | lengthByte;
   const stringBytes = bytes.slice(2, length + 2);
-  const string = new TextDecoder("utf8").decode(stringBytes);
+  const string = textDecoder.decode(stringBytes);
   return { string, byteLength: length + 2 };
 }
 

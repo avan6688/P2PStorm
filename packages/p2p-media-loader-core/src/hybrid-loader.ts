@@ -327,7 +327,7 @@ export class HybridLoader {
           request?.status === "loading" && request.downloadSource === "p2p";
 
         const hasP2PFailedAttempt =
-          (request?.failedAttempts.p2pAttemptsCount ?? 0) > 0;
+          (request?.failedAttempts.p2pAttemptsCount ?? 0) >= 3;
 
         if (
           !hasP2PFailedAttempt &&
