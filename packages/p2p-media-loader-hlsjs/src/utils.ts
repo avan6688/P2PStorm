@@ -1,4 +1,4 @@
-import { ByteRange } from "p2p-media-loader-core";
+import { ByteRange } from "@p2pstorm/core";
 
 export function getSegmentRuntimeId(
   segmentRequestUrl: string,

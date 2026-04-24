@@ -18,9 +18,9 @@ import { ShakaDPlayer } from "./players/shaka/ShakaDPlayer";
 import { ShakaClappr } from "./players/shaka/ShakaClappr";
 import { HlsjsMediaElement } from "./players/hlsjs/HlsjsMediaElement";
 import { ShakaPlyr } from "./players/shaka/ShakaPlyr";
-import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine } from "@p2pstorm/hlsjs";
 import { HlsjsVidstack } from "./players/hlsjs/HlsjsVidstack";
-import { PeerDetails } from "p2p-media-loader-core";
+import { PeerDetails } from "@p2pstorm/core";
 import { HlsjsVidstackIndexedDB } from "./players/hlsjs/HlsjsVidstackIndexedDB";
 
 type DemoProps = {

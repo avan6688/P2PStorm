@@ -8,7 +8,7 @@ import type {
   LoaderStats,
 } from "hls.js";
 import * as Utils from "./utils.js";
-import { Core, SegmentResponse, CoreRequestError } from "p2p-media-loader-core";
+import { Core, SegmentResponse, CoreRequestError } from "@p2pstorm/core";
 
 const DEFAULT_DOWNLOAD_LATENCY = 10;
 

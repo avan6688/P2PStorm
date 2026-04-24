@@ -88,35 +88,51 @@ export class HttpRequestExecutor {
         );
       }
 
-      const response = await window.fetch(request);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      // Forward parent abort to timeout controller
+      const onParentAbort = () =>
+        controller.abort(this.abortController.signal.reason);
+      this.abortController.signal.addEventListener("abort", onParentAbort);
+      try {
+        const response = await window.fetch(request, {
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
 
-      this.handleResponseHeaders(response);
+        this.handleResponseHeaders(response);
 
-      if (!response.body) return;
-      const { requestControls } = this;
-      requestControls.firstBytesReceived();
+        if (!response.body) return;
+        const { requestControls } = this;
+        requestControls.firstBytesReceived();
 
-      const reader = response.body.getReader();
-      for await (const chunk of readStream(reader)) {
-        this.requestControls.addLoadedChunk(chunk);
-        this.onChunkDownloaded(chunk.byteLength, "http");
+        const reader = response.body.getReader();
+        for await (const chunk of readStream(reader)) {
+          this.requestControls.addLoadedChunk(chunk);
+          this.onChunkDownloaded(chunk.byteLength, "http");
+        }
+
+        const isValid =
+          (await this.httpConfig.validateHTTPSegment?.(
+            segment.url,
+            segment.byteRange,
+            this.request.data,
+          )) ?? true;
+
+        if (!isValid) {
+          this.request.clearLoadedBytes();
+          throw new RequestError<"http-segment-validation-failed">(
+            "http-segment-validation-failed",
+          );
+        }
+
+        requestControls.completeOnSuccess();
+      } catch (e) {
+        clearTimeout(timeoutId);
+        throw e;
+      } finally {
+        this.abortController.signal.removeEventListener("abort", onParentAbort);
       }
-
-      const isValid =
-        (await this.httpConfig.validateHTTPSegment?.(
-          segment.url,
-          segment.byteRange,
-          this.request.data,
-        )) ?? true;
-
-      if (!isValid) {
-        this.request.clearLoadedBytes();
-        throw new RequestError<"http-segment-validation-failed">(
-          "http-segment-validation-failed",
-        );
-      }
-
-      requestControls.completeOnSuccess();
     } catch (error) {
       this.handleError(error);
     }

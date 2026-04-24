@@ -19,7 +19,7 @@ import {
   CoreEventMap,
   DynamicCoreConfig,
   DefinedCoreConfig,
-} from "p2p-media-loader-core";
+} from "@p2pstorm/core";
 
 /** Type for specifying dynamic configuration options that can be changed at runtime for the P2P engine's core. */
 export type DynamicShakaP2PEngineConfig = {

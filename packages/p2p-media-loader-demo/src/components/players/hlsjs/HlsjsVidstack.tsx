@@ -11,7 +11,7 @@ import {
   DefaultVideoLayout,
 } from "@vidstack/react/player/layouts/default";
 import { PlayerProps } from "../../../types";
-import { HlsJsP2PEngine, HlsWithP2PConfig } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine, HlsWithP2PConfig } from "@p2pstorm/hlsjs";
 import { subscribeToUiEvents } from "../utils";
 import { useCallback } from "react";
 import Hls from "hls.js";

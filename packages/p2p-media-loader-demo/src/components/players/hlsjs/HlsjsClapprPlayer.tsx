@@ -1,7 +1,7 @@
 import "../clappr.css";
 import { useEffect, useRef } from "react";
 import { PlayerProps } from "../../../types";
-import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine } from "@p2pstorm/hlsjs";
 import { subscribeToUiEvents } from "../utils";
 import Hls from "hls.js";
 import { useScripts } from "../../../hooks/useScripts";

@@ -3,7 +3,7 @@ import * as PlyrModule from "plyr";
 import { useEffect, useRef } from "react";
 import { PlayerProps } from "../../../types";
 import Hls from "hls.js";
-import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine } from "@p2pstorm/hlsjs";
 import { createVideoElements, subscribeToUiEvents } from "../utils";
 
 export const HlsjsPlyr = ({

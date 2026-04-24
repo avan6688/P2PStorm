@@ -28,7 +28,7 @@ If you prefer to develop without Codespaces, follow these steps:
 1. **Clone** the repository:
 
    ```bash
-   git clone https://github.com/Novage/p2p-media-loader.git
+   git clone https://github.com/avan6688/P2PStorm.git
    ```
 
 2. **Install dependencies** for all workspace projects:

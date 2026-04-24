@@ -2,7 +2,7 @@ import "mediaelement";
 import "mediaelement/build/mediaelementplayer.min.css";
 import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
-import { HlsJsP2PEngine, HlsWithP2PInstance } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine, HlsWithP2PInstance } from "@p2pstorm/hlsjs";
 import { createVideoElements, subscribeToUiEvents } from "../utils";
 import { PlayerProps } from "../../../types";
 

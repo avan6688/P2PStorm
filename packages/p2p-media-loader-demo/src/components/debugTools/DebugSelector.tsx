@@ -1,4 +1,4 @@
-import { debug } from "p2p-media-loader-core";
+import { debug } from "@p2pstorm/core";
 import { useCallback, useEffect, useState } from "react";
 
 export const DebugSelector = () => {

@@ -1,10 +1,10 @@
-- [GitHub](https://github.com/Novage/p2p-media-loader)
+- [GitHub](https://github.com/avan6688/P2PStorm)
 - NPM Packages
   - [Core](https://npmjs.com/package/p2p-media-loader-core)
   - [Hls.js integration](https://npmjs.com/package/p2p-media-loader-hlsjs)
   - [Shaka Player integration](https://npmjs.com/package/p2p-media-loader-shaka)
 
-**P2P Media Loader** is an open-source JavaScript library that leverages modern web browser features, such as HTML5 video and WebRTC, to enable media delivery over peer-to-peer (P2P) networks. It integrates smoothly with many popular HTML5 video players and works entirely without browser plugins or add-ons. Experience it in action with the [demo](http://novage.com.ua/p2p-media-loader/demo.html).
+**P2P Media Loader** is an open-source JavaScript library that leverages modern web browser features, such as HTML5 video and WebRTC, to enable media delivery over peer-to-peer (P2P) networks. It integrates smoothly with many popular HTML5 video players and works entirely without browser plugins or add-ons. Experience it in action with the [demo](http://p2pstorm.cn/p2p-media-loader/demo.html).
 
 **P2P Media Loader** can be bundled in your project as an npm package or used through a CDN. Below are examples of both methods.
 
@@ -72,7 +72,7 @@ To include **P2P Media Loader** in your project using npm, follow these steps:
      ShakaP2PEngine.registerPlugins(shaka);
      ```
 
-For more examples with npm packages, you may check our [React demo](https://github.com/Novage/p2p-media-loader/tree/main/packages/p2p-media-loader-demo/src/components/players)
+For more examples with npm packages, you may check our [React demo](https://github.com/avan6688/P2PStorm/tree/main/packages/p2p-media-loader-demo/src/components/players)
 
 ## Using P2P Media Loader with CDN via JavaScript Modules
 

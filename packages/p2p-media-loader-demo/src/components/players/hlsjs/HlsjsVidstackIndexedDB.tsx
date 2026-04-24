@@ -12,7 +12,7 @@ import {
   DefaultVideoLayout,
 } from "@vidstack/react/player/layouts/default";
 import { PlayerProps } from "../../../types";
-import { HlsJsP2PEngine, HlsWithP2PConfig } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine, HlsWithP2PConfig } from "@p2pstorm/hlsjs";
 import { subscribeToUiEvents } from "../utils";
 import { useCallback } from "react";
 import Hls from "hls.js";
@@ -84,7 +84,7 @@ export const HlsjsVidstackIndexedDB = ({
           implemented in this example. To remove cached segments, please clear
           your browser&apos;s IndexedDB manually.{" "}
           <a
-            href="https://github.com/Novage/p2p-media-loader/tree/main/packages/p2p-media-loader-demo/src/custom-segment-storage-example"
+            href="https://github.com/avan6688/P2PStorm/tree/main/packages/p2p-media-loader-demo/src/custom-segment-storage-example"
             target="_blank"
             rel="noreferrer"
             className="source-code-link"

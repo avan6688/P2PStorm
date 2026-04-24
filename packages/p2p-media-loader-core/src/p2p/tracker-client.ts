@@ -113,7 +113,31 @@ export class P2PTrackerClient {
 
     peerItem.potentialConnections.add(peerConnection);
 
+    // Clean up stale potential connections after 30 seconds
+    const connectionTimeout = window.setTimeout(() => {
+      if (peerItem.potentialConnections.has(peerConnection)) {
+        peerItem.potentialConnections.delete(peerConnection);
+        peerConnection.destroy();
+        // Clean up empty peer items with no peer and no pending connections
+        if (!peerItem.peer && peerItem.potentialConnections.size === 0) {
+          this._peers.delete(itemId);
+        }
+      }
+    }, 30000);
+
+    const cleanUpConnection = () => {
+      clearTimeout(connectionTimeout);
+      peerItem.potentialConnections.delete(peerConnection);
+      if (!peerItem.peer && peerItem.potentialConnections.size === 0) {
+        this._peers.delete(itemId);
+      }
+    };
+
+    peerConnection.on("error", cleanUpConnection);
+    peerConnection.on("close", cleanUpConnection);
+
     peerConnection.on("connect", () => {
+      clearTimeout(connectionTimeout);
       if (peerItem.peer) return;
 
       for (const connection of peerItem.potentialConnections) {

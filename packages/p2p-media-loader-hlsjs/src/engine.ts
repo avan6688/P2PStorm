@@ -18,7 +18,7 @@ import {
   DynamicCoreConfig,
   debug,
   DefinedCoreConfig,
-} from "p2p-media-loader-core";
+} from "@p2pstorm/core";
 import { injectMixin } from "./engine-static.js";
 
 /** Represents the complete configuration for HlsJsP2PEngine. */

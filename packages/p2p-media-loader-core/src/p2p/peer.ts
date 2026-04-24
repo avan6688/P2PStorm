@@ -31,6 +31,7 @@ type PeerEventHandlers = {
 export class Peer {
   readonly id: string;
   private readonly peerProtocol;
+  private isDestroyed = false;
   private downloadingContext?: {
     request: Request;
     controls: RequestControls;
@@ -38,6 +39,9 @@ export class Peer {
     requestId: number;
   };
   private loadedSegments = new Set<number>();
+  private _totalBytesReceived = 0;
+  private _totalDownloadTimeMs = 0;
+  private _downloadStartTime = 0;
   private httpLoadingSegments = new Set<number>();
   private downloadingErrors: RequestError<
     PeerRequestErrorType | RequestAbortErrorType
@@ -78,6 +82,11 @@ export class Peer {
 
   get downloadingSegment(): SegmentWithStream | undefined {
     return this.downloadingContext?.request.segment;
+  }
+
+  get estimatedSpeed(): number {
+    if (this._totalDownloadTimeMs === 0) return 0;
+    return this._totalBytesReceived / (this._totalDownloadTimeMs / 1000);
   }
 
   getSegmentStatus(
@@ -179,6 +188,11 @@ export class Peer {
         }
 
         this.downloadingErrors = [];
+        const elapsed = performance.now() - this._downloadStartTime;
+        if (elapsed > 0) {
+          this._totalBytesReceived += request.totalBytes ?? 0;
+          this._totalDownloadTimeMs += elapsed;
+        }
         controls.completeOnSuccess();
         this.downloadingContext = undefined;
         break;
@@ -228,6 +242,7 @@ export class Peer {
     if (this.downloadingContext) {
       throw new Error("Some segment already is downloading");
     }
+    this._downloadStartTime = performance.now();
     this.downloadingContext = {
       request: segmentRequest,
       requestId: (nextRequestId = (nextRequestId + 1) % 2147483647),
@@ -365,6 +380,8 @@ export class Peer {
   };
 
   destroy = () => {
+    if (this.isDestroyed) return;
+    this.isDestroyed = true;
     this.cancelSegmentDownloading("peer-closed");
     this.connection.destroy();
     this.eventHandlers.onPeerClosed(this);

@@ -23,7 +23,7 @@ Few [public trackers](https://openwebtorrent.com/) are configured in the library
 Any compatible WebTorrent tracker works for `P2P Media Loader`:
 
 - [Aquatic](https://github.com/greatest-ape/aquatic) - A high-performance BitTorrent tracker written in Rust.
-- [wt-tracker](https://github.com/Novage/wt-tracker) - high-performance WebTorrent tracker by Novage that uses [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js) for I/O.
+- [wt-tracker](https://github.com/avan6688/wt-tracker) - high-performance WebTorrent tracker by P2PStorm that uses [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js) for I/O.
 - [bittorrent-tracker](https://github.com/webtorrent/bittorrent-tracker) - tracker from WebTorrent project that uses Node.js I/O
 
 ## Don't use public trackers in production
@@ -135,7 +135,7 @@ const hls = new HlsWithP2P({
 
 ## How to see that P2P is actually working?
 
-The easiest way is to subscribe to P2P [events](https://novage.github.io/p2p-media-loader/docs/v2.2/types/p2p_media_loader_core.CoreEventMap.html) and log them:
+The easiest way is to subscribe to P2P [events](https://docs.p2pstorm.cn/v2.2/types/p2p_media_loader_core.CoreEventMap.html) and log them:
 
 ```javascript
 const engine = new HlsJsP2PEngine();

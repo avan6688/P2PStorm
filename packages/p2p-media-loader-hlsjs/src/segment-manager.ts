@@ -5,7 +5,7 @@ import type {
   AudioTrackLoadedData,
   LevelParsed,
 } from "hls.js";
-import { Core, Segment, generateStreamShortId } from "p2p-media-loader-core";
+import { Core, Segment, generateStreamShortId } from "@p2pstorm/core";
 
 export class SegmentManager {
   core: Core;

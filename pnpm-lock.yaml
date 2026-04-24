@@ -44,18 +44,18 @@ importers:
 
   demo:
     dependencies:
-      p2p-media-loader-core:
+      '@p2pstorm/core':
         specifier: workspace:*
         version: link:../packages/p2p-media-loader-core
+      '@p2pstorm/hlsjs':
+        specifier: workspace:*
+        version: link:../packages/p2p-media-loader-hlsjs
+      '@p2pstorm/shaka':
+        specifier: workspace:*
+        version: link:../packages/p2p-media-loader-shaka
       p2p-media-loader-demo:
         specifier: workspace:*
         version: link:../packages/p2p-media-loader-demo
-      p2p-media-loader-hlsjs:
-        specifier: workspace:*
-        version: link:../packages/p2p-media-loader-hlsjs
-      p2p-media-loader-shaka:
-        specifier: workspace:*
-        version: link:../packages/p2p-media-loader-shaka
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -115,6 +115,15 @@ importers:
 
   packages/p2p-media-loader-demo:
     dependencies:
+      '@p2pstorm/core':
+        specifier: workspace:*
+        version: link:../p2p-media-loader-core
+      '@p2pstorm/hlsjs':
+        specifier: workspace:*
+        version: link:../p2p-media-loader-hlsjs
+      '@p2pstorm/shaka':
+        specifier: workspace:*
+        version: link:../p2p-media-loader-shaka
       '@vidstack/react':
         specifier: ^1.12.13
         version: 1.12.13(@types/react@19.2.14)(react@19.2.4)
@@ -133,15 +142,6 @@ importers:
       openplayerjs:
         specifier: ^2.14.12
         version: 2.14.12
-      p2p-media-loader-core:
-        specifier: workspace:*
-        version: link:../p2p-media-loader-core
-      p2p-media-loader-hlsjs:
-        specifier: workspace:*
-        version: link:../p2p-media-loader-hlsjs
-      p2p-media-loader-shaka:
-        specifier: workspace:*
-        version: link:../p2p-media-loader-shaka
       plyr:
         specifier: ^3.8.4
         version: 3.8.4
@@ -182,7 +182,7 @@ importers:
 
   packages/p2p-media-loader-hlsjs:
     dependencies:
-      p2p-media-loader-core:
+      '@p2pstorm/core':
         specifier: workspace:*
         version: link:../p2p-media-loader-core
     devDependencies:
@@ -195,7 +195,7 @@ importers:
 
   packages/p2p-media-loader-shaka:
     dependencies:
-      p2p-media-loader-core:
+      '@p2pstorm/core':
         specifier: workspace:*
         version: link:../p2p-media-loader-core
     devDependencies:
@@ -2703,7 +2703,6 @@ packages:
 
   shaka-player@5.0.9:
     resolution: {integrity: sha512-Y391+8gZHpLYGkiYmY/jHOfHQKQXHrR1op+awAEOxn3BALskjDuyoteNwfFyFScuQOqKIiq0O0PjPe1NfHi+WQ==}
-    engines: {node: '>=18'}
 
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}

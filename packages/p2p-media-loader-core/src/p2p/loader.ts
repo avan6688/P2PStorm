@@ -18,6 +18,7 @@ export type EventTargetMap = Record<`onStorageUpdated-${string}`, () => void> &
 export class P2PLoader {
   private readonly trackerClient: P2PTrackerClient;
   private isAnnounceMicrotaskCreated = false;
+  private readonly segmentPeerIndex = new Map<string, Set<string>>();
 
   constructor(
     private streamManifestUrl: string,
@@ -38,7 +39,10 @@ export class P2PLoader {
         onPeerConnected: this.onPeerConnected,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSegmentRequested: this.onSegmentRequested,
-        onSegmentsAnnouncement: this.onSegmentAnnouncement,
+        onSegmentsAnnouncement: () => {
+          this.rebuildSegmentPeerIndex();
+          this.onSegmentAnnouncement();
+        },
       },
       this.config,
       this.eventTarget,
@@ -67,7 +71,10 @@ export class P2PLoader {
     }
 
     if (peersWithSegment.length === 0) return;
-    const peer = Utils.getRandomItem(peersWithSegment);
+    // Sort by estimated speed (bytes received / time), pick best
+    const peer = peersWithSegment.sort((a, b) => {
+      return b.estimatedSpeed - a.estimatedSpeed;
+    })[0] || Utils.getRandomItem(peersWithSegment);
 
     const request = this.requests.getOrCreateRequest(segment);
     peer.downloadSegment(request);
@@ -81,10 +88,26 @@ export class P2PLoader {
   }
 
   isSegmentLoadedBySomeone(segment: SegmentWithStream): boolean {
+    const key = String(segment.externalId);
+    const peerIds = this.segmentPeerIndex.get(key);
+    return peerIds !== undefined && peerIds.size > 0;
+  }
+
+  private rebuildSegmentPeerIndex() {
+    this.segmentPeerIndex.clear();
     for (const peer of this.trackerClient.peers()) {
-      if (peer.getSegmentStatus(segment) === "loaded") return true;
+      for (const segment of this.stream.segments.values()) {
+        if (peer.getSegmentStatus(segment) === "loaded") {
+          const key = String(segment.externalId);
+          let peerSet = this.segmentPeerIndex.get(key);
+          if (!peerSet) {
+            peerSet = new Set();
+            this.segmentPeerIndex.set(key, peerSet);
+          }
+          peerSet.add(peer.id);
+        }
+      }
     }
-    return false;
   }
 
   get connectedPeerCount() {

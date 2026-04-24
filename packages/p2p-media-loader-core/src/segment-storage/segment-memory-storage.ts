@@ -47,6 +47,8 @@ export class SegmentMemoryStorage implements SegmentStorage {
   private currentPlayback?: Playback;
   private lastRequestedSegment?: LastRequestedSegmentInfo;
   private segmentChangeCallback?: (streamId: string) => void;
+  private cachedFutureUsage?: { position: number; value: number };
+  private usageCacheDirty = true;
 
   constructor() {
     this.logger = debug("p2pml-core:segment-memory-storage");
@@ -68,6 +70,9 @@ export class SegmentMemoryStorage implements SegmentStorage {
   }
 
   onPlaybackUpdated(position: number, rate: number) {
+    if (this.currentPlayback?.position !== position) {
+      this.usageCacheDirty = true;
+    }
     this.currentPlayback = { position, rate };
   }
 
@@ -114,6 +119,7 @@ export class SegmentMemoryStorage implements SegmentStorage {
       streamType,
     });
     this.increaseStorageUsage(data.byteLength);
+    this.usageCacheDirty = true;
 
     this.logger(`add segment: ${segmentId} to ${streamId}`);
 
@@ -143,6 +149,17 @@ export class SegmentMemoryStorage implements SegmentStorage {
     }
     const playbackPosition = this.currentPlayback.position;
 
+    if (
+      !this.usageCacheDirty &&
+      this.cachedFutureUsage &&
+      this.cachedFutureUsage.position === playbackPosition
+    ) {
+      return {
+        totalCapacity: this.segmentMemoryStorageLimit,
+        usedCapacity: this.cachedFutureUsage.value,
+      };
+    }
+
     let calculatedUsedCapacity = 0;
     for (const { endTime, data } of this.cache.values()) {
       if (playbackPosition > endTime) continue;
@@ -150,9 +167,13 @@ export class SegmentMemoryStorage implements SegmentStorage {
       calculatedUsedCapacity += data.byteLength;
     }
 
+    const usedCapacity = calculatedUsedCapacity / BYTES_PER_MiB;
+    this.cachedFutureUsage = { position: playbackPosition, value: usedCapacity };
+    this.usageCacheDirty = false;
+
     return {
       totalCapacity: this.segmentMemoryStorageLimit,
-      usedCapacity: calculatedUsedCapacity / BYTES_PER_MiB,
+      usedCapacity,
     };
   }
 
@@ -189,11 +210,10 @@ export class SegmentMemoryStorage implements SegmentStorage {
     if (!isMemoryLimitReached && !isLiveStream) return;
 
     const affectedStreams = new Set<string>();
-    const sortedCache = Array.from(this.cache.values()).sort(
-      (a, b) => a.startTime - b.startTime,
-    );
 
-    for (const segmentData of sortedCache) {
+    // Iterate in insertion order (Map maintains insertion order in JS)
+    // which is naturally oldest-first, avoiding O(n log n) sort
+    for (const segmentData of this.cache.values()) {
       const { streamId, segmentId, data } = segmentData;
       const storageId = getStorageItemId(streamId, segmentId);
 
@@ -208,6 +228,7 @@ export class SegmentMemoryStorage implements SegmentStorage {
       this.cache.delete(storageId);
       affectedStreams.add(streamId);
       this.decreaseStorageUsage(data.byteLength);
+      this.usageCacheDirty = true;
 
       this.logger(`Removed segment ${segmentId} from stream ${streamId}`);
 
@@ -257,7 +278,9 @@ export class SegmentMemoryStorage implements SegmentStorage {
       return currentPlaybackPosition > highDemandTimeWindow + endTime;
     }
 
-    return true;
+    // VOD: keep recently played segments as P2P seeds (60 seconds retention)
+    const P2P_SEED_RETENTION_SECONDS = 60;
+    return currentPlaybackPosition - endTime > P2P_SEED_RETENTION_SECONDS;
   }
 
   private increaseStorageUsage(segmentByteLength: number) {

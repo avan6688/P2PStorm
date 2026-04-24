@@ -1,4 +1,4 @@
-import { Core } from "p2p-media-loader-core";
+import { Core } from "@p2pstorm/core";
 
 export const PLAYERS = {
   vidstack_hls: "Vidstack",

@@ -91,6 +91,11 @@ export class Request {
     private readonly playback: Playback,
     private readonly playbackConfig: StreamUtils.PlaybackTimeWindowsConfig,
     eventTarget: EventTarget<CoreEventMap>,
+    private readonly onStatusChange?: (
+      prevStatus: RequestStatus,
+      newStatus: RequestStatus,
+      downloadSource?: "http" | "p2p",
+    ) => void,
   ) {
     this.onSegmentError = eventTarget.getEventDispatcher("onSegmentError");
     this.onSegmentAbort = eventTarget.getEventDispatcher("onSegmentAbort");
@@ -120,8 +125,10 @@ export class Request {
   }
 
   private setStatus(status: RequestStatus) {
+    const prevStatus = this._status;
     this._status = status;
     this._isHandledByProcessQueue = false;
+    this.onStatusChange?.(prevStatus, status, this.currentAttempt?.downloadSource);
   }
 
   get downloadSource() {
@@ -361,23 +368,21 @@ export class Request {
 
 class FailedRequestAttempts {
   private attempts: Required<RequestAttempt>[] = [];
+  private _httpAttemptsCount = 0;
+  private _p2pAttemptsCount = 0;
 
   add(attempt: Required<RequestAttempt>) {
     this.attempts.push(attempt);
+    if (attempt.downloadSource === "http") this._httpAttemptsCount++;
+    else this._p2pAttemptsCount++;
   }
 
   get httpAttemptsCount() {
-    return this.attempts.reduce(
-      (sum, attempt) => (attempt.downloadSource === "http" ? sum + 1 : sum),
-      0,
-    );
+    return this._httpAttemptsCount;
   }
 
   get p2pAttemptsCount() {
-    return this.attempts.reduce(
-      (sum, attempt) => (attempt.downloadSource === "p2p" ? sum + 1 : sum),
-      0,
-    );
+    return this._p2pAttemptsCount;
   }
 
   get lastAttempt(): Readonly<Required<RequestAttempt>> | undefined {
@@ -386,6 +391,8 @@ class FailedRequestAttempts {
 
   clear() {
     this.attempts = [];
+    this._httpAttemptsCount = 0;
+    this._p2pAttemptsCount = 0;
   }
 }
 

@@ -1,5 +1,5 @@
 import { PLAYERS } from "./constants";
-import { CoreEventMap } from "p2p-media-loader-core";
+import { CoreEventMap } from "@p2pstorm/core";
 
 export type DownloadStats = {
   httpDownloaded: number;

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ShakaP2PEngine } from "p2p-media-loader-shaka";
+import { ShakaP2PEngine } from "@p2pstorm/shaka";
 import { PlayerProps } from "../../../types";
 import "shaka-player/dist/controls.css";
 import { shaka, shakaUI, shakaType } from "./shaka-import";

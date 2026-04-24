@@ -2,7 +2,7 @@ import "./hlsjs.css";
 import { useEffect, useRef } from "react";
 import { PlayerProps } from "../../../types";
 import { subscribeToUiEvents } from "../utils";
-import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine } from "@p2pstorm/hlsjs";
 import Hls from "hls.js";
 
 export const HlsjsPlayer = ({

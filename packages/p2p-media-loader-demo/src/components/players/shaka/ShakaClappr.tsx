@@ -2,7 +2,7 @@ import { shakaType } from "./shaka-import";
 import "../clappr.css";
 import { useEffect, useRef } from "react";
 import { PlayerProps } from "../../../types";
-import { ShakaP2PEngine } from "p2p-media-loader-shaka";
+import { ShakaP2PEngine } from "@p2pstorm/shaka";
 import { subscribeToUiEvents } from "../utils";
 import { useScripts } from "../../../hooks/useScripts";
 import { Loader } from "../loader/Loader";

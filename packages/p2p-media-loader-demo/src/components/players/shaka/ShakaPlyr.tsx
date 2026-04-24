@@ -1,7 +1,7 @@
 import { shaka, shakaType } from "./shaka-import";
 import "plyr/dist/plyr.css";
 import { useEffect, useRef } from "react";
-import { ShakaP2PEngine } from "p2p-media-loader-shaka";
+import { ShakaP2PEngine } from "@p2pstorm/shaka";
 import { PlayerProps } from "../../../types";
 import * as PlyrModule from "plyr";
 import type Plyr from "plyr";

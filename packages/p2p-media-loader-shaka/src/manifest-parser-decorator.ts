@@ -10,7 +10,7 @@ import {
   StreamType,
   debug,
   generateStreamShortId,
-} from "p2p-media-loader-core";
+} from "@p2pstorm/core";
 
 const AUDIO_CODECS = [
   "mp4a",

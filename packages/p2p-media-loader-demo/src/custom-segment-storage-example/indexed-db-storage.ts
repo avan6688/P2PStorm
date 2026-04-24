@@ -3,7 +3,7 @@ import {
   SegmentStorage,
   StreamConfig,
   StreamType,
-} from "p2p-media-loader-core";
+} from "@p2pstorm/core";
 import { IndexedDbWrapper } from "./indexed-db-wrapper";
 
 type SegmentDataItem = {

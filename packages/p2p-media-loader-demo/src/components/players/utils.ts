@@ -1,6 +1,6 @@
-import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine } from "@p2pstorm/hlsjs";
 import { PlayerEvents } from "./../../types";
-import { ShakaP2PEngine } from "p2p-media-loader-shaka";
+import { ShakaP2PEngine } from "@p2pstorm/shaka";
 
 type UIEventsProps = PlayerEvents & {
   engine: HlsJsP2PEngine | ShakaP2PEngine;

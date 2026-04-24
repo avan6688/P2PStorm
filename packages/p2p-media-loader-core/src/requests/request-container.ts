@@ -5,6 +5,8 @@ import { Request } from "./request.js";
 
 export class RequestsContainer {
   private readonly requests = new Map<SegmentWithStream, Request>();
+  private _executingHttpCount = 0;
+  private _executingP2PCount = 0;
 
   constructor(
     private readonly requestProcessQueueCallback: () => void,
@@ -15,19 +17,21 @@ export class RequestsContainer {
   ) {}
 
   get executingHttpCount() {
-    let count = 0;
-    for (const request of this.httpRequests()) {
-      if (request.status === "loading") count++;
-    }
-    return count;
+    return this._executingHttpCount;
   }
 
   get executingP2PCount() {
-    let count = 0;
-    for (const request of this.p2pRequests()) {
-      if (request.status === "loading") count++;
-    }
-    return count;
+    return this._executingP2PCount;
+  }
+
+  incrementExecutingCount(source: "http" | "p2p") {
+    if (source === "http") this._executingHttpCount++;
+    else this._executingP2PCount++;
+  }
+
+  decrementExecutingCount(source: "http" | "p2p") {
+    if (source === "http") this._executingHttpCount--;
+    else this._executingP2PCount--;
   }
 
   get(segment: SegmentWithStream) {
@@ -44,6 +48,13 @@ export class RequestsContainer {
         this.playback,
         this.config,
         this.eventTarget,
+        (prevStatus, newStatus, downloadSource) => {
+          if (prevStatus !== "loading" && newStatus === "loading" && downloadSource) {
+            this.incrementExecutingCount(downloadSource);
+          } else if (prevStatus === "loading" && newStatus !== "loading" && downloadSource) {
+            this.decrementExecutingCount(downloadSource);
+          }
+        },
       );
       this.requests.set(segment, request);
     }
@@ -76,5 +87,7 @@ export class RequestsContainer {
       request.abortFromProcessQueue();
     }
     this.requests.clear();
+    this._executingHttpCount = 0;
+    this._executingP2PCount = 0;
   }
 }

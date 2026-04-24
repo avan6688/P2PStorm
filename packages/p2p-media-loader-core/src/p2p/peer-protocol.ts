@@ -12,6 +12,8 @@ export type PeerConfig = Pick<
   | "validateP2PSegment"
 >;
 
+const MAX_COMMAND_SIZE_BYTES = 1024 * 1024; // 1MB
+
 export class PeerProtocol {
   private commandChunks?: Command.BinaryCommandChunksJoiner;
   private uploadingContext?: { stopUploading: () => void; requestId: number };
@@ -117,19 +119,32 @@ export class PeerProtocol {
     }
   }
 
+  private commandBytesReceived = 0;
+
   private receivingCommandBytes(buffer: Uint8Array) {
     this.commandChunks ??= new Command.BinaryCommandChunksJoiner(
       (commandBuffer) => {
         this.commandChunks = undefined;
+        this.commandBytesReceived = 0;
         const command = Command.deserializeCommand(commandBuffer);
         this.eventHandlers.onCommandReceived(command);
       },
     );
+
+    this.commandBytesReceived += buffer.byteLength;
+    if (this.commandBytesReceived > MAX_COMMAND_SIZE_BYTES) {
+      this.commandChunks = undefined;
+      this.commandBytesReceived = 0;
+      this.connection.destroy();
+      return;
+    }
+
     try {
       this.commandChunks.addCommandChunk(buffer);
     } catch (err) {
       if (!(err instanceof Command.BinaryCommandJoiningError)) return;
       this.commandChunks = undefined;
+      this.commandBytesReceived = 0;
     }
   }
 }

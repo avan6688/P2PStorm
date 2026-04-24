@@ -6,7 +6,7 @@ import {
   CoreRequestError,
   SegmentResponse,
   EngineCallbacks,
-} from "p2p-media-loader-core";
+} from "@p2pstorm/core";
 
 type LoadingHandlerParams = Parameters<shaka.extern.SchemePlugin>;
 type Response = shaka.extern.Response;

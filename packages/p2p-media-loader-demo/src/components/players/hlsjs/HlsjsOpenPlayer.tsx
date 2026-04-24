@@ -2,7 +2,7 @@ import "openplayerjs/dist/openplayer.min.css";
 import OpenPlayerJS from "openplayerjs";
 import { useEffect, useRef } from "react";
 import { PlayerProps } from "../../../types";
-import { HlsJsP2PEngine, HlsWithP2PInstance } from "p2p-media-loader-hlsjs";
+import { HlsJsP2PEngine, HlsWithP2PInstance } from "@p2pstorm/hlsjs";
 import Hls from "hls.js";
 import { createVideoElements, subscribeToUiEvents } from "../utils";
 

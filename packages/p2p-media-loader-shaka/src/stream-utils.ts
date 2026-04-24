@@ -1,6 +1,6 @@
 import type shaka from "shaka-player/dist/shaka-player.compiled.d.ts";
 import { StreamWithReadonlySegments } from "./types.js";
-import { Segment, ByteRange } from "p2p-media-loader-core";
+import { Segment, ByteRange } from "@p2pstorm/core";
 
 export function createSegment({
   segmentReference,
