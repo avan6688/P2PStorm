@@ -1,6 +1,6 @@
 {
   "name": "@p2pstorm/shaka",
-  "version": "2.1.3",
+  "version": "2.3.1",
   "description": "P2PStorm Shaka Player integration - distributed video acceleration",
   "license": "Apache-2.0",
   "author": "P2PStorm",
