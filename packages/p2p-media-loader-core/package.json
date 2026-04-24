@@ -3,7 +3,7 @@
   "description": "P2PStorm - Distributed video acceleration engine core",
   "license": "Apache-2.0",
   "author": "P2PStorm",
-  "homepage": "https://apitesoweuruoe.us.cc",
+  "homepage": "https://p2pstorm.vip",
   "repository": {
     "type": "git",
     "url": "https://github.com/avan6688/P2PStorm",
@@ -26,11 +26,10 @@
     "ecdn",
     "cdn"
   ],
-  "version": "2.1.0",
+  "version": "2.1.2",
   "files": [
     "dist",
-    "lib",
-    "src"
+    "lib"
   ],
   "exports": "./src/index.ts",
   "types": "./src/index.ts",

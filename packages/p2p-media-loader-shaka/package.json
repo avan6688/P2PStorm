@@ -1,10 +1,10 @@
 {
   "name": "@p2pstorm/shaka",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "P2PStorm Shaka Player integration - distributed video acceleration",
   "license": "Apache-2.0",
   "author": "P2PStorm",
-  "homepage": "https://apitesoweuruoe.us.cc",
+  "homepage": "https://p2pstorm.vip",
   "repository": {
     "type": "git",
     "url": "https://github.com/avan6688/P2PStorm",
@@ -28,8 +28,7 @@
   ],
   "files": [
     "dist",
-    "lib",
-    "src"
+    "lib"
   ],
   "exports": "./src/index.ts",
   "types": "./src/index.ts",
