@@ -35,6 +35,11 @@ export class PeerProtocol {
     connection.on("data", this.onDataReceived);
   }
 
+  destroy() {
+    this.connection.off("data", this.onDataReceived);
+    this.stopUploadingSegmentData();
+  }
+
   private onDataReceived = (data: Uint8Array) => {
     if (Command.isCommandChunk(data)) {
       this.receivingCommandBytes(data);

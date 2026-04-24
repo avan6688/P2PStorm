@@ -58,6 +58,7 @@ export class Core<TStream extends Stream = Stream> {
       "wss://tracker.p2pstorm.vip",
       "wss://tracker.openwebtorrent.com",
     ],
+    appKey: undefined,
     rtcConfig: {
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
@@ -125,6 +126,98 @@ export class Core<TStream extends Stream = Stream> {
       baseConfig: filteredConfig,
       specificStreamConfig: filteredConfig.secondaryStream,
     });
+
+    // Auto stats reporting
+    this.initStatsReporter();
+  }
+
+  // ===== Auto Stats Reporter =====
+  private statsAccum = { p2pBytes: 0, cdnBytes: 0, peersCount: 0, sessionId: '' };
+  private reportKey = '';
+  private reportTimer: ReturnType<typeof setInterval> | null = null;
+
+  private initStatsReporter(): void {
+    const appKey = this.mainStreamConfig.appKey;
+    if (!appKey) return;
+
+    this.statsAccum.sessionId = 'sdk-' + Math.random().toString(36).substring(2, 10) + '-' + Date.now();
+
+    // Listen for chunk downloads
+    this.eventTarget.addEventListener('onChunkDownloaded', (bytesLength: number, downloadSource: string) => {
+      if (downloadSource === 'p2p') this.statsAccum.p2pBytes += bytesLength;
+      else this.statsAccum.cdnBytes += bytesLength;
+    });
+    this.eventTarget.addEventListener('onPeerConnect', () => {
+      this.statsAccum.peersCount++;
+    });
+
+    // Fetch report_key from config
+    const trackerUrl = this.mainStreamConfig.announceTrackers[0] || '';
+    const apiBase = trackerUrl.replace('wss://tracker.', 'https://api.').replace(/\/$/, '');
+    if (apiBase) {
+      fetch(`${apiBase}/v1/config?app_key=${encodeURIComponent(appKey)}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d?.data?.report_key) this.reportKey = d.data.report_key;
+        })
+        .catch(() => {});
+    }
+
+    // Report every 60 seconds
+    this.reportTimer = setInterval(() => this.flushStats(), 60000);
+  }
+
+  private async flushStats(): Promise<void> {
+    const appKey = this.mainStreamConfig.appKey;
+    if (!appKey) return;
+    const { p2pBytes, cdnBytes, peersCount, sessionId } = this.statsAccum;
+    if (p2pBytes === 0 && cdnBytes === 0) return;
+
+    const timestamp = Math.floor(Date.now() / 1000);
+    let signature = '';
+
+    // Calculate HMAC signature if report_key available
+    if (this.reportKey) {
+      const data = `${appKey}|${p2pBytes}|${cdnBytes}|${timestamp}`;
+      const key = await crypto.subtle.importKey('raw',
+        new TextEncoder().encode(this.reportKey), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+      const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(data));
+      signature = Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const trackerUrl = this.mainStreamConfig.announceTrackers[0] || '';
+    const apiBase = trackerUrl.replace('wss://tracker.', 'https://api.').replace(/\/$/, '');
+
+    const body = {
+      app_key: appKey,
+      session_id: sessionId,
+      p2p_bytes: p2pBytes,
+      cdn_bytes: cdnBytes,
+      peers_count: peersCount,
+      duration: 60,
+      platform: typeof navigator !== 'undefined' ? (navigator.userAgent.includes('Android') ? 'android' : 'web') : 'unknown',
+      version: '2.2.0',
+      timestamp,
+      signature,
+    };
+
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10_000);
+      await fetch(`${apiBase}/v1/stats`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+    } catch {
+      // silently ignore - stats are best-effort
+    }
+
+    // Reset accumulator
+    this.statsAccum.p2pBytes = 0;
+    this.statsAccum.cdnBytes = 0;
   }
 
   /**

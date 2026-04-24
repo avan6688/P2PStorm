@@ -1,7 +1,6 @@
 import { PeerConnection } from "bittorrent-tracker";
 import debug from "debug";
 
-let nextRequestId = 0;
 import { Request, RequestControls } from "../requests/request.js";
 import {
   CoreEventMap,
@@ -32,6 +31,7 @@ export class Peer {
   readonly id: string;
   private readonly peerProtocol;
   private isDestroyed = false;
+  private nextRequestId = 0;
   private downloadingContext?: {
     request: Request;
     controls: RequestControls;
@@ -245,7 +245,7 @@ export class Peer {
     this._downloadStartTime = performance.now();
     this.downloadingContext = {
       request: segmentRequest,
-      requestId: (nextRequestId = (nextRequestId + 1) % 2147483647),
+      requestId: (this.nextRequestId = (this.nextRequestId + 1) % 2147483647),
       isSegmentDataCommandReceived: false,
       controls: segmentRequest.start(
         { downloadSource: "p2p", peerId: this.id },
@@ -383,6 +383,7 @@ export class Peer {
     if (this.isDestroyed) return;
     this.isDestroyed = true;
     this.cancelSegmentDownloading("peer-closed");
+    this.peerProtocol.destroy();
     this.connection.destroy();
     this.eventHandlers.onPeerClosed(this);
     this.onPeerClosed({
