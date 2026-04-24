@@ -4,16 +4,16 @@
 [![npm version](https://img.shields.io/npm/v/p2p-media-loader-core?logo=npm&logoColor=white)](https://npmjs.com/package/p2p-media-loader-core)
 [![jsDelivr hits (npm)](https://data.jsdelivr.com/v1/package/npm/p2p-media-loader-core/badge?style=rounded)](https://www.jsdelivr.com/package/npm/p2p-media-loader-core)
 
-**P2P Media Loader** is an open-source JavaScript library that uses modern browser technologies — like HTML5 video and WebRTC — to enable peer-to-peer (P2P) media delivery. It integrates seamlessly with popular HTML5 video players and requires no additional browser plugins or add-ons. Try the [demo](http://p2pstorm.cn/p2p-media-loader/demo.html) to see it in action.
+**P2P Media Loader** is an open-source JavaScript library that uses modern browser technologies — like HTML5 video and WebRTC — to enable peer-to-peer (P2P) media delivery. It integrates seamlessly with popular HTML5 video players and requires no additional browser plugins or add-ons. Try the [demo](http://p2pstorm.vip/p2p-media-loader/demo.html) to see it in action.
 
 This library makes it possible to build large-scale P2P mesh networks — often called peer-to-peer content delivery networks (P2P CDN), Hybrid CDN, Multi CDN, peer-to-peer television (P2PTV), or Enterprise Content Delivery Networks (eCDN) — enabling users who are watching the same live or on-demand (VOD) streams via HLS or MPEG-DASH to share traffic in real time.
 
 ## Why Use Hybrid CDN + P2P Delivery?
 
 - **Works Everywhere:**
-  P2P Media Loader **supports all modern desktop and mobile browsers** — Chrome, Safari, Edge, Firefox, and Opera — across Windows, macOS, Android, iOS, iPadOS, and Linux. Check out our [guide](https://p2pstorm.cn/blog/setting-up-p2p-video-on-a-web-page-in-5-minutes-for-free) to set up P2P video in five minutes. You can also [embed](https://p2pstorm.cn/blog/integrate-p2p-video-streaming-into-mobile-application) it into **native iOS and Android** apps and use it with **native players**.
+  P2P Media Loader **supports all modern desktop and mobile browsers** — Chrome, Safari, Edge, Firefox, and Opera — across Windows, macOS, Android, iOS, iPadOS, and Linux. Check out our [guide](https://p2pstorm.vip/blog/setting-up-p2p-video-on-a-web-page-in-5-minutes-for-free) to set up P2P video in five minutes. You can also [embed](https://p2pstorm.vip/blog/integrate-p2p-video-streaming-into-mobile-application) it into **native iOS and Android** apps and use it with **native players**.
 - **No Setup Cost and No Server Software Needed:**
-  For smaller setups (1,000–2,000 simultaneous viewers), public trackers alone can handle peer connections. This means you **don’t need to install or maintain any additional server-side components** in many cases. **Free** alternatives are available for larger setups that can handle 100k simultaneous peers and above. Check our article on [running dedicated trackers](https://p2pstorm.cn/blog/p2p-video-delivery-for-up-to-100k-viewers-for-free).
+  For smaller setups (1,000–2,000 simultaneous viewers), public trackers alone can handle peer connections. This means you **don’t need to install or maintain any additional server-side components** in many cases. **Free** alternatives are available for larger setups that can handle 100k simultaneous peers and above. Check our article on [running dedicated trackers](https://p2pstorm.vip/blog/p2p-video-delivery-for-up-to-100k-viewers-for-free).
 - **Reduced Load on Origin:**
   Offloading requests from the CDN or media server to peers eases the strain on centralized infrastructure, increasing system reliability.
 - **Significant Cost Savings:**
@@ -33,14 +33,14 @@ This library makes it possible to build large-scale P2P mesh networks — often 
 
 ## Documentation and Important Links
 
-- Guides [for HTML pages and web apps](https://p2pstorm.cn/blog/setting-up-p2p-video-on-a-web-page-in-5-minutes-for-free) and [for native mobile apps](https://p2pstorm.cn/blog/integrate-p2p-video-streaming-into-mobile-application)
-- [API documentation](https://docs.p2pstorm.cn/v2.2/)
-- [P2P development, support & consulting](https://p2pstorm.cn/)
-- [Demo](http://p2pstorm.cn/p2p-media-loader/demo.html)
+- Guides [for HTML pages and web apps](https://p2pstorm.vip/blog/setting-up-p2p-video-on-a-web-page-in-5-minutes-for-free) and [for native mobile apps](https://p2pstorm.vip/blog/integrate-p2p-video-streaming-into-mobile-application)
+- [API documentation](https://docs.p2pstorm.vip/v2.2/)
+- [P2P development, support & consulting](https://p2pstorm.vip/)
+- [Demo](http://p2pstorm.vip/p2p-media-loader/demo.html)
 - [Contributing to our project](https://github.com/avan6688/P2PStorm/blob/main/CONTRIBUTING.md)
 - [FAQ](https://github.com/avan6688/P2PStorm/blob/main/FAQ.md)
-- [Overview](http://p2pstorm.cn/p2p-media-loader/overview.html)
-- [Technical overview](http://p2pstorm.cn/p2p-media-loader/technical-overview.html)
+- [Overview](http://p2pstorm.vip/p2p-media-loader/overview.html)
+- [Technical overview](http://p2pstorm.vip/p2p-media-loader/technical-overview.html)
 - npm packages
   - [Core](https://npmjs.com/package/p2p-media-loader-core)
   - [Hls.js integration](https://npmjs.com/package/p2p-media-loader-hlsjs)
@@ -67,7 +67,7 @@ This library makes it possible to build large-scale P2P mesh networks — often 
   - Video players: [Vidstack](https://www.vidstack.io/), [Clappr](http://clappr.io/), [MediaElement](https://www.mediaelementjs.com/), [Plyr](https://plyr.io/), [DPlayer](https://dplayer.diygod.dev/), [OpenPlayerJS](https://www.openplayerjs.com/), [PlayerJS](https://playerjs.com/) , and others that support Hls.js or Shaka video engines. These players can be integrated via custom integration with the library API.
 - Supports adaptive bitrate streaming of HLS and MPEG-DASH protocols
 - There is no need for server-side software for simple use cases. By default **P2P Media Loader** uses publicly available servers:
-  - WebTorrent trackers - [https://tracker.p2pstorm.cn/](https://tracker.p2pstorm.cn/), [https://openwebtorrent.com/](https://openwebtorrent.com/)
+  - WebTorrent trackers - [https://tracker.p2pstorm.vip/](https://tracker.p2pstorm.vip/), [https://openwebtorrent.com/](https://openwebtorrent.com/)
   - STUN servers - [Public STUN server list](https://gist.github.com/mondain/b0ec1cf5f60ae726202e)
 
 ## Key Components of the P2P Network
@@ -85,7 +85,7 @@ All the components of the P2P network are free and open-source.
 There are many running public servers available on [Public STUN server list](https://gist.github.com/mondain/b0ec1cf5f60ae726202e).
 
 A compatible [**WebTorrent**](https://webtorrent.io/) tracker is required for WebRTC signaling and to create swarms of peers downloading the same media stream.
-A few running public trackers are available: [https://tracker.p2pstorm.cn/](https://tracker.p2pstorm.cn/), [https://openwebtorrent.com/](https://openwebtorrent.com/).
+A few running public trackers are available: [https://tracker.p2pstorm.vip/](https://tracker.p2pstorm.vip/), [https://openwebtorrent.com/](https://openwebtorrent.com/).
 
 It is possible to run personal WebTorrent tracker using open-source implementations: [wt-tracker](https://github.com/avan6688/wt-tracker), [Aquatic](https://github.com/greatest-ape/aquatic), [OpenWebtorrent Tracker](https://github.com/OpenWebTorrent/openwebtorrent-tracker), [bittorrent-tracker](https://github.com/webtorrent/bittorrent-tracker).
 

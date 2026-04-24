@@ -4,7 +4,7 @@
   - [Hls.js integration](https://npmjs.com/package/p2p-media-loader-hlsjs)
   - [Shaka Player integration](https://npmjs.com/package/p2p-media-loader-shaka)
 
-**P2P Media Loader** is an open-source JavaScript library that leverages modern web browser features, such as HTML5 video and WebRTC, to enable media delivery over peer-to-peer (P2P) networks. It integrates smoothly with many popular HTML5 video players and works entirely without browser plugins or add-ons. Experience it in action with the [demo](http://p2pstorm.cn/p2p-media-loader/demo.html).
+**P2P Media Loader** is an open-source JavaScript library that leverages modern web browser features, such as HTML5 video and WebRTC, to enable media delivery over peer-to-peer (P2P) networks. It integrates smoothly with many popular HTML5 video players and works entirely without browser plugins or add-ons. Experience it in action with the [demo](http://p2pstorm.vip/p2p-media-loader/demo.html).
 
 **P2P Media Loader** can be bundled in your project as an npm package or used through a CDN. Below are examples of both methods.
 

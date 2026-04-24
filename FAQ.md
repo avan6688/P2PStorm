@@ -135,7 +135,7 @@ const hls = new HlsWithP2P({
 
 ## How to see that P2P is actually working?
 
-The easiest way is to subscribe to P2P [events](https://docs.p2pstorm.cn/v2.2/types/p2p_media_loader_core.CoreEventMap.html) and log them:
+The easiest way is to subscribe to P2P [events](https://docs.p2pstorm.vip/v2.2/types/p2p_media_loader_core.CoreEventMap.html) and log them:
 
 ```javascript
 const engine = new HlsJsP2PEngine();

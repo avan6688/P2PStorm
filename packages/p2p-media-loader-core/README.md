@@ -47,7 +47,7 @@ hls.attachMedia(document.getElementById('video'));
 
 ## Dashboard
 
-Get your AppKey at [dashboard.p2pstorm.cn](https://dashboard.p2pstorm.vip)
+Get your AppKey at [dashboard.p2pstorm.vip](https://dashboard.p2pstorm.vip)
 
 ## License
 

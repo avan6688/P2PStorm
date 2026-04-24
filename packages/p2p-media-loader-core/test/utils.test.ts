@@ -60,7 +60,7 @@ test("override common config", () => {
       "wss://tracker.webtorrent.dev",
       "wss://tracker.files.fm:7073/announce",
       "wss://tracker.openwebtorrent.com",
-      // "wss://tracker.p2pstorm.cn",
+      // "wss://tracker.p2pstorm.vip",
     ],
     rtcConfig: {
       iceServers: [
@@ -101,7 +101,7 @@ test("override defined stream config", () => {
       "wss://tracker.webtorrent.dev",
       "wss://tracker.files.fm:7073/announce",
       "wss://tracker.openwebtorrent.com",
-      // "wss://tracker.p2pstorm.cn",
+      // "wss://tracker.p2pstorm.vip",
     ],
     rtcConfig: {
       iceServers: [
@@ -152,7 +152,7 @@ test("override defined stream config", () => {
       "wss://tracker.webtorrent.dev",
       "wss://tracker.files.fm:7073/announce",
       "wss://tracker.openwebtorrent.com",
-      // "wss://tracker.p2pstorm.cn",
+      // "wss://tracker.p2pstorm.vip",
     ],
     rtcConfig: {
       iceServers: [
@@ -193,7 +193,7 @@ test("filter undefined props", () => {
       "wss://tracker.webtorrent.dev",
       "wss://tracker.files.fm:7073/announce",
       "wss://tracker.openwebtorrent.com",
-      // "wss://tracker.p2pstorm.cn",
+      // "wss://tracker.p2pstorm.vip",
     ],
     rtcConfig: undefined,
     validateP2PSegment: undefined,
@@ -233,7 +233,7 @@ test("filter undefined props", () => {
       "wss://tracker.webtorrent.dev",
       "wss://tracker.files.fm:7073/announce",
       "wss://tracker.openwebtorrent.com",
-      // "wss://tracker.p2pstorm.cn",
+      // "wss://tracker.p2pstorm.vip",
     ],
     mainStream: {},
     secondaryStream: {
