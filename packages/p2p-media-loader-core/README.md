@@ -36,7 +36,7 @@ const hls = new Hls({
   p2p: {
     core: {
       appKey: 'YOUR_APP_KEY',
-      announceTrackers: ['wss://tracker.p2pstorm.cn']
+      announceTrackers: ['wss://tracker.p2pstorm.vip']
     }
   }
 });

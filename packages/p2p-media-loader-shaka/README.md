@@ -17,7 +17,7 @@ import { ShakaP2PEngine } from '@p2pstorm/shaka';
 const engine = new ShakaP2PEngine({
   core: {
     appKey: 'YOUR_APP_KEY',
-    announceTrackers: ['wss://tracker.p2pstorm.cn']
+    announceTrackers: ['wss://tracker.p2pstorm.vip']
   }
 });
 
